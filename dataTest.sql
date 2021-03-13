@@ -1,4 +1,8 @@
-\c biztime
+DROP DATABASE IF EXISTS biztime_test;
+
+CREATE DATABASE biztime_test;
+
+\c biztime_test;
 
 DROP TABLE IF EXISTS invoices CASCADE;
 DROP TABLE IF EXISTS companies CASCADE;
@@ -32,33 +36,12 @@ CREATE TABLE companies_industries (
     PRIMARY KEY(company_code, industry_code)
 );
 
-INSERT INTO companies
-  VALUES ('apple', 'Apple Computer', 'Maker of OSX.'),
-         ('pge', 'PG&E', 'Gas & Eletric.'),
-          ('amd', 'AMD', 'CPU');
+-- INSERT INTO companies
+--   VALUES ('apple', 'Apple Computer', 'Maker of OSX.'),
+--          ('ibm', 'IBM', 'Big blue.');
 
-INSERT INTO invoices (comp_Code, amt, paid, paid_date)
-  VALUES ('apple', 100, false, null),
-         ('apple', 200, false, null),
-         ('apple', 300, true, '2018-01-01'),
-         ('pge', 900, false, null);
-
-INSERT INTO industries (indust_code, industry)
-  VALUES ('util', 'Utility'),
-         ('tech', 'High Tech'),
-        ('engr', 'Engineering');
-
-INSERT INTO companies_industries
-  VALUES  ('apple', 'tech'),
-          ('apple', 'engr'),
-          ('pge', 'util'),
-          ('pge', 'engr'),
-          ('amd', 'tech'),
-          ('amd', 'engr');
-
-SELECT c.name, i.industry
-FROM companies AS c
-LEFT JOIN companies_industries AS ci
-ON c.code = ci.company_code
-LEFT JOIN industries AS i
-ON ci.industry_code = i.indust_code;
+-- INSERT INTO invoices (comp_Code, amt, paid, paid_date)
+--   VALUES ('apple', 100, false, null),
+--          ('apple', 200, false, null),
+--          ('apple', 300, true, '2018-01-01'),
+--          ('ibm', 400, false, null);

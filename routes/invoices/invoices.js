@@ -34,7 +34,6 @@ router.get('/:id', async (req, res, next) => {
             throw new ExpressError("No invoices found", 404);
         }
 
-        console.log(results);
         const data = results.rows[0];
         const invoice = {
             id: data.id,
@@ -88,12 +87,10 @@ router.put('/:id', async (req, res, next) => {
 
         if (!currentPaidDate && paid) {
             paidDate = new Date();
-        } else if (currentPaidDate && !paid) {
+        } else if (!paid) {
             paidDate = null;
         } else {
-            // console.log('here');
-            paidDate = new Date();
-            paid = true;
+            paidDate = currentPaidDate;
         }
 
         const results = await db.query(
@@ -118,7 +115,6 @@ router.delete('/:id', async (req, res, next) => {
             `SELECT * FROM invoices WHERE id = $1`, [id]
         );
 
-        console.log(currentResult);
         if (currentResult.rows.length === 0) {
             throw new ExpressError("No invoice found", 404)
         }

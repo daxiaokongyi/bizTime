@@ -2,16 +2,21 @@
 
 
 const express = require("express");
-
-const app = express();
+const companyRoutes = require("./routes/companies/companies");
+const invoicesRoutes = require("./routes/invoices/invoices");
+const industriesRoutes = require("./routes/industries/industries");
 const ExpressError = require("./expressError")
 
-app.use(express.json());
+const app = express();
 
+app.use(express.json());
+app.use("/companies", companyRoutes);
+app.use("/invoices", invoicesRoutes);
+app.use("/industries", industriesRoutes);
 
 /** 404 handler */
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   const err = new ExpressError("Not Found", 404);
   return next(err);
 });
@@ -26,6 +31,5 @@ app.use((err, req, res, next) => {
     message: err.message
   });
 });
-
 
 module.exports = app;
